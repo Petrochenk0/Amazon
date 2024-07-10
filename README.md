@@ -33,7 +33,7 @@ Node 14.x Version
 ## Cloning the repository
 
 ```shell
-git clone https://github.com/JonnyDavies/amazon-clone-frontend.git
+git clone https://github.com/Petrochenk0/Amazon.git
 ```
 
 ## Start the app
