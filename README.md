@@ -1,30 +1,43 @@
-# React + TypeScript + Vite
+# Amazon Clone in React, Tailwind CSS & Redux
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![amazon_clone_v6](https://user-images.githubusercontent.com/17878339/231386523-1b0f7bb9-b83d-4a3e-a1bf-12405ebebbd2.png)
 
-Currently, two official plugins are available:
+This repository contains an Amazon Clone with React, Tailwind CSS and Redux.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+### Home Page
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Contains Carousel containing images and video:
 
-- Configure the top-level `parserOptions` property like this:
+![HomePage](https://user-images.githubusercontent.com/17878339/230745262-681f4ad3-e34c-4a06-8ef3-d50218d93f94.gif)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+### Nav Bar
+
+Complete with search box that offers suggestions as you type: 
+
+![NavBar](https://user-images.githubusercontent.com/17878339/230745497-4136d398-1991-4d96-a3ef-de7e6ca9977a.gif)
+
+### Product Page
+
+![ProductPage](https://user-images.githubusercontent.com/17878339/230745350-f1f0825c-fc68-4f3d-a5cd-cb0e051d1aed.gif)
+
+### Checkout Page
+
+![Checkout](https://user-images.githubusercontent.com/17878339/230745697-b166ff53-b07d-4cac-9947-61688ac6c2a3.gif)
+
+## Prerequisites
+
+Node 14.x Version
+
+## Cloning the repository
+
+```shell
+git clone https://github.com/Petrochenk0/Amazon.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Start the app
+
+```shell
+npm start
+```
