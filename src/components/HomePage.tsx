@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { Carousel } from './';
+import { Carousel, HomeCard } from './';
 
 export default function HomePage() {
   return (
@@ -9,10 +7,34 @@ export default function HomePage() {
         HomePage
         <Carousel />
         <div className="grid grid-cols-3 xl:grid-cols-4">
-          <div>first product</div>
-          <div>seoncd product</div>
-          <div>third product</div>
-          <div>forth product</div>
+          <HomeCard
+            title="We have a surprise for you"
+            img="../images/home_grid_1.jpg"
+            link="See terms and conditions"
+          />
+          <HomeCard
+            title="Wath the Rings of Power"
+            img="../images/home_grid_2.jpg"
+            link="Start sreaming now"
+          />
+          <HomeCard
+            title="Ultimited Streaming"
+            img="../images/home_grid_3.jpg"
+            link="Browse Kindle Ulimited"
+          />
+          <HomeCard
+            title="More titles to explore"
+            img="../images/home_grid_4.jpg"
+            link="See more"
+          />
+          <HomeCard title="Shop pet" img="../images/home_grid_5.jpg" link="Sea the deals" />
+          <HomeCard title="Spring sale" img="../images/home_grid_6.jpg" link="Learn more" />
+          <HomeCard title="Echo bud" img="../images/home_grid_7.jpg" link="See more" />
+          <HomeCard
+            title="Family Plan: 3 month free"
+            img="../images/home_grid_8.jpg"
+            link="Learn more"
+          />
         </div>
       </div>
     </div>
