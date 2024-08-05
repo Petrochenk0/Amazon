@@ -6,7 +6,7 @@ interface HomePageProps {
 
 export default function HomeCard({ title, img, link }: HomePageProps) {
   return (
-    <div className="h-[430px] bg-white">
+    <div className="h-[430px] bg-white z-10 m-4">
       <div className="text-lg xl:text-xl font-semibold ml-4 mt-4">{title}</div>
       <div className="h-[300px] m-4">
         <img className="h-[100%] w-[100%] object-cover" src={img} alt={title} />

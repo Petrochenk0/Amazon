@@ -1,12 +1,11 @@
-import { Carousel, HomeCard } from './';
+import { Carousel, CarouselCategory, CarouselProduct, HomeCard } from './';
 
 export default function HomePage() {
   return (
     <div className="bg-amazonColors-background">
-      <div className="max-w-[1500px] min-w-[1000px] bg-red-400 m-auto">
-        HomePage
+      <div className="max-w-[1500px] min-w-[1000px] bg-gray-300 m-auto">
         <Carousel />
-        <div className="grid grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-3 xl:grid-cols-4 -mt-80">
           <HomeCard
             title="We have a surprise for you"
             img="../images/home_grid_1.jpg"
@@ -35,6 +34,14 @@ export default function HomePage() {
             img="../images/home_grid_8.jpg"
             link="Learn more"
           />
+          <div className="m-4 pt-11">
+            <img className="xl:hidden" src="../images/banner_image_2.jpg" />
+          </div>
+        </div>
+        <CarouselProduct />
+        <CarouselCategory />
+        <div className="h-[200px]">
+          <img className="h-[100%] m-auto" src={'../images/banner_image.jpg'} />
         </div>
       </div>
     </div>
