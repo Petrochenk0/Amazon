@@ -1,7 +1,10 @@
-export { default as HomePage } from './HomePage';
-export { default as Carousel } from './Carousel';
+export { default as HomePage } from '../pages/HomePage';
+export { default as Carousel } from '../widgets/Carousel';
 export { default as HomeCard } from './HomeCard';
-export { default as CarouselCategory } from './CarouselCategory';
-export { default as CarouselProduct } from './CarouselProduct';
-export { default as NavBar } from './NavBar';
-export { default as Search } from './Search';
+export { default as CarouselCategory } from '../features/CarouselCategory';
+export { default as CarouselProduct } from '../features/CarouselProduct';
+export { default as NavBar } from '../widgets/NavBar';
+export { default as Search } from '../features/Search';
+export { default as SearchResult } from './SearchResult';
+export { default as ProductPage } from '../pages/ProductPage';
+export { default as Checkout } from './Checkout';

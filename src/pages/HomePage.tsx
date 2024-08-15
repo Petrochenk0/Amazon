@@ -1,4 +1,4 @@
-import { Carousel, CarouselCategory, CarouselProduct, HomeCard } from './';
+import { Carousel, CarouselCategory, CarouselProduct, HomeCard } from '../components';
 
 export default function HomePage() {
   return (
