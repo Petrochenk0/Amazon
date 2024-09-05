@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Search } from '../components';
+import Search from '../features/Search';
 
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 

@@ -1,6 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import { HomePage, NavBar, SearchResult, Checkout, ProductPage } from './components';
+import HomePage from '../pages/HomePage';
+import ProductPage from '../pages/ProductPage';
+
+import NavBar from '../widgets/NavBar';
+
+import SearchResult from '../components/SearchResult';
+import Checkout from '../components/Checkout';
 
 function App() {
   return (

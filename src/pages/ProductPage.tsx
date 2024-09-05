@@ -1,5 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+
+import ProductDetails from '../widgets/ProductDetails';
+
 import { callData } from '../utils/CallApi';
 
 import { IProduct } from '../types';
@@ -32,12 +35,29 @@ const ProductPage = () => {
               <img src={`${product.image}`} />
             </div>
             {/* Middle */}
-            <div className="col-span-4 bg-white">
-              <div className=""></div>
-              <div className=""></div>
+            <div className="col-span-4 bg-white p-4 rounded divide-y ">
+              <div className="mb-3">
+                <ProductDetails product={product} ratingsIs={true} />
+              </div>
+              <div className="text-base pt-2">{product.description}</div>
             </div>
             {/* Right */}
-            <div className="col-span-3 bg-white"></div>
+            <div className="col-span-3 p-4 rounded bg-white">
+              <div className="text-2xl font-semibold">{product.price}</div>
+              <div className="text-lg font-semibold">{product.oldPrice}</div>
+              <div className="text-base font-semibold">FREE Returns</div>
+              <div className="text-base font-semibold">FREE Delivery</div>
+              <div className="text-lg font-semibold">In Stock</div>
+              <div className="text-lg font-semibold">
+                Quantity:
+                <select>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                </select>
+              </div>
+              <button>Add to Cart</button>
+            </div>
           </div>
         </div>
       </div>

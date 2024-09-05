@@ -1,4 +1,9 @@
-import { Carousel, CarouselCategory, CarouselProduct, HomeCard } from '../components';
+import Carousel from '../widgets/Carousel';
+
+import CarouselCategory from '../features/CarouselCategory';
+import CarouselProduct from '../features/CarouselProduct';
+
+import HomeCard from '../components/HomeCard';
 
 export default function HomePage() {
   return (
