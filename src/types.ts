@@ -12,3 +12,8 @@ export interface IProduct {
   oldPrice: number;
   badge: string;
 }
+
+export interface ISuggestions {
+  id: number;
+  title: string;
+}

@@ -1,9 +1,11 @@
-import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import ProductDetails from '../widgets/ProductDetails';
 
 import { callData } from '../utils/CallApi';
+
+import { GB_CURRENCY } from '../utils/constans';
 
 import { IProduct } from '../types';
 
@@ -29,13 +31,13 @@ const ProductPage = () => {
     product && (
       <div className="h-screen bg-amazonColors-background">
         <div className="min-w-[1000px] max-w-[1500px] m-auto">
-          <div className="grid grid-cols-10 gap-2">
+          <div className="grid grid-cols-12 gap-2 pt-10">
             {/* Left */}
             <div className="col-span-3 rounded m-auto bg-white p-10">
               <img src={`${product.image}`} />
             </div>
             {/* Middle */}
-            <div className="col-span-4 bg-white p-4 rounded divide-y ">
+            <div className="col-span-6 bg-white p-4 rounded divide-y ">
               <div className="mb-3">
                 <ProductDetails product={product} ratingsIs={true} />
               </div>
@@ -43,20 +45,32 @@ const ProductPage = () => {
             </div>
             {/* Right */}
             <div className="col-span-3 p-4 rounded bg-white">
-              <div className="text-2xl font-semibold">{product.price}</div>
-              <div className="text-lg font-semibold">{product.oldPrice}</div>
-              <div className="text-base font-semibold">FREE Returns</div>
-              <div className="text-base font-semibold">FREE Delivery</div>
-              <div className="text-lg font-semibold">In Stock</div>
-              <div className="text-lg font-semibold">
+              <div className="text-2xl cursor-pointer text-red-500 font-semibold text-right">
+                {GB_CURRENCY.format(product.price)}
+              </div>
+              <div className="text-lg cursor-pointer text-gray-400 font-semibold text-right line-through">
+                {GB_CURRENCY.format(product.oldPrice)}
+              </div>
+              <div className="text-base text-teal-500 cursor-pointer font-semibold mt-3 hover:text-orange-500">
+                FREE Returns
+              </div>
+              <div className="text-base cursor-pointer mt-2 text-teal-500 font-semibold hover:text-orange-500">
+                FREE Delivery
+              </div>
+              <div className="text-lg font-semibold mt-2 cursor-pointer text-green-700">
+                In Stock
+              </div>
+              <div className="text-lg font-semibold mt-2">
                 Quantity:
-                <select>
+                <select className="cursor-pointer p-1 ml-2 border rounded-lg focus:border-indigo-300">
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
                 </select>
               </div>
-              <button>Add to Cart</button>
+              <button className="mt-5 p-3 text-sm bg-amazonColors-yellows w-full rounded-xl hover:bg-yellow-600">
+                Add to Cart
+              </button>
             </div>
           </div>
         </div>

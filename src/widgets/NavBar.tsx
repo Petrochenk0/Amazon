@@ -41,10 +41,12 @@ export default function NavBar() {
             <div className="text-xs xl:text-sm  text-gray-300 mt-2">Returns</div>
             <div className="text-sm xl:text-base font-bold -mt-2">& Orders</div>
           </div>
-          <div className="flex h-[55px] pr-3 pl-3 cursor-pointer border  border-amazonColors hover:border-white mr-3">
-            <ShoppingCartIcon className="h-[48px]" />
-            <div className="font-bold mt-6">Cart</div>
-          </div>
+          <Link to={'/cart'}>
+            <div className="flex h-[55px] pr-3 pl-3 cursor-pointer border  border-amazonColors hover:border-white mr-3">
+              <ShoppingCartIcon className="h-[48px]" />
+              <div className="font-bold mt-6">Cart</div>
+            </div>
+          </Link>
         </div>
       </div>
       <div className="flex bg-amazonColors-light_blue text-white space-x-3 pl-5 items-center">

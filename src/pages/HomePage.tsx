@@ -1,9 +1,9 @@
 import Carousel from '../widgets/Carousel';
 
-import CarouselCategory from '../features/CarouselCategory';
+import CarouselCategory from '../widgets/CarouselCategory';
 import CarouselProduct from '../features/CarouselProduct';
 
-import HomeCard from '../components/HomeCard';
+import HomeCard from '../shared/HomeCard';
 
 export default function HomePage() {
   return (

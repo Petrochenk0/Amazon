@@ -6,7 +6,7 @@ import ProductPage from '../pages/ProductPage';
 import NavBar from '../widgets/NavBar';
 
 import SearchResult from '../components/SearchResult';
-import Checkout from '../components/Checkout';
+import Cart from '../pages/Cart';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/product/:id" element={<ProductPage />} />
-          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/search" element={<SearchResult />} />
         </Routes>
       </BrowserRouter>
