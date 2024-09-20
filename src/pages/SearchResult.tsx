@@ -1,7 +1,11 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+
+import ProductDetails from '../widgets/ProductDetails';
 
 import { callData } from '../utils/CallApi';
+import { GB_CURRENCY } from '../utils/constans';
+
 import { IProduct } from '../types';
 
 export default function SearchResult() {
@@ -36,13 +40,25 @@ export default function SearchResult() {
   }, [searchParams]);
 
   return (
-    <div className="min-w-[1200px] max-w-[1300px]">
+    <div className="min-w-[1200px] max-w-[1300px] mx-auto">
       {products &&
         products.map((product) => {
           return (
-            <div key={product.title} className="text-black">
-              {product.title}
-            </div>
+            <Link key={product.title} to={`/product/${product.id}`}>
+              <div className="text-black h-[250px] grid grid-cols-12 rounded-xl mt-3 mb-3">
+                <div className="col-span-2 p-7 bg-gray-200">
+                  <img src={product.image_small} className="m-auto" alt="product" />
+                </div>
+                <div className="col-span-10 bg-gray-50 border border-gray-100 hover:bg-gray-100">
+                  <div className="pl-10 pt-5 font-medium text-black p-2">
+                    <ProductDetails product={product} ratingsIs={true} />
+                    <div className="text-xl xl:text-2xl pt-1">
+                      {GB_CURRENCY.format(product.price)}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Link>
           );
         })}
     </div>

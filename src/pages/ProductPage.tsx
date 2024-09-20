@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/cartSlice';
 
 import ProductDetails from '../widgets/ProductDetails';
 
 import { callData } from '../utils/CallApi';
-
 import { GB_CURRENCY } from '../utils/constans';
 
 import { IProduct } from '../types';
@@ -12,6 +14,9 @@ import { IProduct } from '../types';
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<IProduct | null>(null);
+  const [quantityProducts, setQuantityProducts] = useState('1');
+
+  const dispatch = useDispatch();
 
   const getProduct = () => {
     callData(`data/products.json`).then((productResults) => {
@@ -19,6 +24,11 @@ const ProductPage = () => {
         setProduct(productResults[id]);
       }
     });
+  };
+
+  const addCountsToProduct = () => {
+    setProduct((product.quantity = quantityProducts));
+    return product;
   };
 
   useEffect(() => {
@@ -62,15 +72,19 @@ const ProductPage = () => {
               </div>
               <div className="text-lg font-semibold mt-2">
                 Quantity:
-                <select className="cursor-pointer p-1 ml-2 border rounded-lg focus:border-indigo-300">
+                <select
+                  onChange={(e) => setQuantityProducts(e.target.value)}
+                  className="cursor-pointer p-1 ml-2 border rounded-lg focus:border-indigo-300">
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
                 </select>
               </div>
-              <button className="mt-5 p-3 text-sm bg-amazonColors-yellows w-full rounded-xl hover:bg-yellow-600">
-                Add to Cart
-              </button>
+              <Link to={'/cart'}>
+                <button onClick={() => dispatch(addToCart(addCountsToProduct()))} className="btn">
+                  Add to Cart
+                </button>
+              </Link>
             </div>
           </div>
         </div>

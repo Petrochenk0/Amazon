@@ -11,9 +11,15 @@ export interface IProduct {
   price: number;
   oldPrice: number;
   badge: string;
+  quantity: number;
 }
 
 export interface ISuggestions {
   id: number;
   title: string;
+}
+
+export interface ICartProducts {
+  id: number;
+  quantity: number;
 }

@@ -5,7 +5,8 @@ import ProductPage from '../pages/ProductPage';
 
 import NavBar from '../widgets/NavBar';
 
-import SearchResult from '../components/SearchResult';
+import SearchResult from '../pages/SearchResult';
+
 import Cart from '../pages/Cart';
 
 function App() {

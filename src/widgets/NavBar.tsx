@@ -1,12 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+import { useSelector } from 'react-redux';
 
 import Search from '../features/Search';
 
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 
-import { Link } from 'react-router-dom';
-
 export default function NavBar() {
+  const cartProductsCount = useSelector((state: any) => state.cartSlice.productsNumber);
+
   return (
     <header className="min-w-[1000px]">
       <div className="flex bg-amazonColors text-white">
@@ -44,6 +47,11 @@ export default function NavBar() {
           <Link to={'/cart'}>
             <div className="flex h-[55px] pr-3 pl-3 cursor-pointer border  border-amazonColors hover:border-white mr-3">
               <ShoppingCartIcon className="h-[48px]" />
+              <div className="relative">
+                <div className="absolute right-[10px] font-bold m-2 text-orange-400">
+                  {cartProductsCount}
+                </div>
+              </div>
               <div className="font-bold mt-6">Cart</div>
             </div>
           </Link>
