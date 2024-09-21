@@ -11,7 +11,7 @@ export interface IProduct {
   price: number;
   oldPrice: number;
   badge: string;
-  quantity: number;
+  quantity: number | string;
 }
 
 export interface ISuggestions {
@@ -22,4 +22,11 @@ export interface ISuggestions {
 export interface ICartProducts {
   id: number;
   quantity: number;
+}
+
+export interface RootState {
+  cart: {
+    products: IProduct[];
+    productsNumber: number;
+  };
 }

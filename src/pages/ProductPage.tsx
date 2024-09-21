@@ -14,7 +14,7 @@ import { IProduct } from '../types';
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<IProduct | null>(null);
-  const [quantityProducts, setQuantityProducts] = useState('1');
+  const [quantityProducts, setQuantityProducts] = useState<string | number>('1');
 
   const dispatch = useDispatch();
 
@@ -27,7 +27,12 @@ const ProductPage = () => {
   };
 
   const addCountsToProduct = () => {
-    setProduct((product.quantity = quantityProducts));
+    if (product) {
+      return {
+        ...product,
+        quantity: quantityProducts,
+      };
+    }
     return product;
   };
 
@@ -81,7 +86,13 @@ const ProductPage = () => {
                 </select>
               </div>
               <Link to={'/cart'}>
-                <button onClick={() => dispatch(addToCart(addCountsToProduct()))} className="btn">
+                <button
+                  onClick={() => {
+                    if (product) {
+                      dispatch(addToCart(addCountsToProduct()));
+                    }
+                  }}
+                  className="btn">
                   Add to Cart
                 </button>
               </Link>

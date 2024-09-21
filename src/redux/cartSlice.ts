@@ -28,23 +28,25 @@ export const cartSlice = createSlice({
       // find index for removing
       const index = state.products.findIndex((product) => product.id === action.payload);
       // remove from cart
-      state.products.splice(index, 1);
-      // remove quantity
-      state.productsNumber -= productToRemove.quantity;
+      if (productToRemove) {
+        state.products.splice(index, 1);
+        // remove quantity
+        state.productsNumber -= productToRemove.quantity;
+      }
     },
     decrementInCart: (state, action) => {
       const itemDecrement = state.products.find((item) => item.id === action.payload);
-      if (itemDecrement.quantity === 1) {
+      if (itemDecrement && itemDecrement.quantity === 1) {
         const index = state.products.findIndex((item) => item.id === action.payload);
         state.products.splice(index, 1);
-      } else {
+      } else if (itemDecrement) {
         itemDecrement.quantity--;
       }
       state.productsNumber = state.productsNumber - 1;
     },
     incrementInCart: (state, action) => {
       const itemIncrement = state.products.find((product) => product.id === action.payload);
-      if (itemIncrement.quantity >= 1) {
+      if (itemIncrement && itemIncrement.quantity >= 1) {
         itemIncrement.quantity += 1;
       }
       state.productsNumber += 1;

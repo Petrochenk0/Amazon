@@ -8,11 +8,11 @@ import ProductDetails from '../widgets/ProductDetails';
 import { GB_CURRENCY } from '../utils/constans';
 
 const Cart = () => {
-  const products = useSelector((state) => state.cartSlice.products);
-  const itemsNumber = useSelector((state) => state.cartSlice.productsNumber);
-  const subtotal = useSelector((state) =>
+  const products = useSelector((state: any) => state.cartSlice.products);
+  const itemsNumber = useSelector((state: any) => state.cartSlice.productsNumber);
+  const subtotal = useSelector((state: any) =>
     state.cartSlice.products.reduce(
-      (subtotal, product) => subtotal + product.price * product.quantity,
+      (subtotal: any, product: any) => subtotal + product.price * product.quantity,
       0,
     ),
   );
@@ -25,7 +25,7 @@ const Cart = () => {
           {/* Products */}
           <div className="col-span-6 bg-white">
             <div className="text-2xl xl:text-3xl m-4">Shopping Cart</div>
-            {products.map((product) => {
+            {products.map((product: any) => {
               return (
                 <div key={product.id}>
                   <div className="grid grid-cols-12 divide-y divide-gray-400 mr-4">
@@ -58,7 +58,9 @@ const Cart = () => {
                             onClick={() => dispatch(decrementInCart(product.id))}>
                             -
                           </div>
-                          <div className="text-lg xl:text-xl bg-gray-200">{product.quantity}</div>
+                          <div className="text-lg xl:text-xl bg-gray-200">
+                            {parseInt(product.quantity)}
+                          </div>
                           <div
                             className="text-xl xl:text-2xl bg-gray-400 rounded cursor-pointer"
                             onClick={() => dispatch(incrementInCart(product.id))}>

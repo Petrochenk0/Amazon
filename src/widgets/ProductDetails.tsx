@@ -1,4 +1,3 @@
-import React from 'react';
 import { IProduct } from '../types';
 import ProductBadge from '../entities/ProductBadge';
 import ProductRatings from '../entities/ProductRatings';

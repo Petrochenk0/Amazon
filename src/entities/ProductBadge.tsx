@@ -1,5 +1,3 @@
-import React from 'react';
-
 type BadgeType = string;
 
 export default function ProductBadge({ badge }: { badge: BadgeType }) {
