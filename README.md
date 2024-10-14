@@ -2,9 +2,9 @@
 
 ---
 
-Frontend - React / TypeScript / TailwindCSS
+**Frontend - React / TypeScript / TailwindCSS**
   
-Bacneknd - Nest / PostgreSQL
+**Bacneknd - Nest / PostgreSQL**
 
 ---
 
