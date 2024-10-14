@@ -1,7 +1,5 @@
 # Amazon Store Clone 🛒💥
 
----
-
 **Frontend - React / TypeScript / TailwindCSS**
   
 **Bacneknd - Nest / PostgreSQL**
