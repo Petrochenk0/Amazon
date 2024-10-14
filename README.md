@@ -2,8 +2,8 @@
 
 ---
 
-<h2>Frontend: React / TypeScript / TailwindCSS<h2/> <br/>
-Bacneknd: Nest / PostgreSQL
+<h2>Frontend: React / TypeScript / TailwindCSS<h2/>
+<h2>Bacneknd: Nest / PostgreSQL</h2>
 
 ---
 
