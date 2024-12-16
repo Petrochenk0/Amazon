@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { Link } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,12 +8,11 @@ import Search from '../features/Search';
 
 import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 
-import { logout } from '../redux/authSlice';
-import { useEffect } from 'react';
+import { loginSuccess, logout } from '../redux/authSlice';
 
 export default function NavBar() {
   const cartProductsCount = useSelector((state: any) => state.cartSlice.productsNumber);
-  const user = useSelector((state: any) => state.authSlice.username);
+  const username = useSelector((state: any) => state.authSlice.username);
 
   const dispatch = useDispatch();
 
@@ -22,8 +23,13 @@ export default function NavBar() {
   };
 
   useEffect(() => {
-    console.log('Имя пользователя изменилось:', user);
-  }, [user]);
+    const token = localStorage.getItem('token');
+    const storedUsername = localStorage.getItem('username');
+
+    if (token && storedUsername) {
+      dispatch(loginSuccess({ token, username: storedUsername }));
+    }
+  }, [dispatch]);
 
   return (
     <header className="min-w-[1000px]">
@@ -53,7 +59,7 @@ export default function NavBar() {
           <Link to="/login">
             <div className="cursor-pointer ml-4 pl-4 pr-4 h-[55px] border  border-amazonColors hover:border-white">
               <div className="text-xs xl:text-sm  text-gray-300 mt-2">
-                Hello {user || ', sign in'}
+                Hello {username || ', sign in'}
               </div>
               <div className="text-sm xl:text-base font-bold -mt-2">Account & Lists</div>
             </div>

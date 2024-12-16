@@ -14,10 +14,13 @@ import Registry from '../pages/Registry';
 import Login from '../pages/Login';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { loginSuccess } from '../redux/authSlice';
+// import { loginSuccess } from '../redux/authSlice';
+
+import { getUsername } from '../redux/authSlice';
+import ProfilePage from '../pages/Profile';
 
 function App() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   useEffect(() => {
     try {
@@ -43,6 +46,7 @@ function App() {
           <Route path="/search" element={<SearchResult />} />
           <Route path="/registry" element={<Registry />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </BrowserRouter>
     </div>
