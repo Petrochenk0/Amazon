@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 export default function Registry() {
   const [formData, setFormData] = useState({
     username: '',
+    email: '',
     password: '',
     confirmPassword: '',
   });
@@ -29,7 +30,7 @@ export default function Registry() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { username, password, confirmPassword } = formData;
+    const { username, email, password, confirmPassword } = formData;
 
     if (formData.password !== formData.confirmPassword) {
       message.error('The passwords must match');
@@ -42,8 +43,9 @@ export default function Registry() {
     }
 
     try {
-      const { data } = await axios.post('http://localhost:3001/api/auth/register', {
+      const { data } = await axios.post('http://localhost:3000/api/users/register', {
         username: formData.username,
+        email: formData.email,
         password: formData.password,
         confirmPassword: formData.confirmPassword,
       });
@@ -58,6 +60,7 @@ export default function Registry() {
 
       setFormData({
         username: '',
+        email: '',
         password: '',
         confirmPassword: '',
       });
@@ -91,18 +94,19 @@ export default function Registry() {
           />
 
           {/* Mobile number or email */}
-          {/* <label htmlFor="email" className="block text-sm font-medium text-gray-700 mt-4">
-            Mobile number or email
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mt-4">
+            Email
           </label>
           <input
             type="email"
             id="email"
+            placeholder="Email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
             required
-          /> */}
+          />
 
           {/* Password */}
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 mt-4">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../redux/authSlice';
@@ -13,6 +13,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
@@ -22,7 +23,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post('http://localhost:3001/api/auth/login', {
+      const { data } = await axios.post('http://localhost:3000/api/users/login', {
         username,
         password,
       });
@@ -34,6 +35,10 @@ export default function Login() {
 
       setUsername('');
       setPassword('');
+
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
     } catch (error) {
       message.error('Login failed! Please check your credentials.');
       console.error('Error with login', error);

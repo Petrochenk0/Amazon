@@ -1,7 +1,7 @@
 // authSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const getUsername = () => {
+export const getUsername = () => {
   const storedUsername = localStorage.getItem('username');
   if (!storedUsername) {
     console.warn('Username отсутствует');
@@ -30,10 +30,10 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     loginSuccess: (state, action: PayloadAction<{ token: string; username: string }>) => {
-      console.log('Payload в loginSuccess:', action.payload);
       state.username = action.payload.username;
       localStorage.setItem('token', action.payload.token);
-      localStorage.setItem('username', JSON.stringify(action.payload.username));
+      localStorage.setItem('username', action.payload.username);
+      console.log('Payload в loginSuccess:', action.payload);
     },
 
     logout: (state) => {
