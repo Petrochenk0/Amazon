@@ -30,7 +30,7 @@ export default function Registry() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { username, email, password, confirmPassword } = formData;
+    // const { username, email, password, confirmPassword } = formData;
 
     if (formData.password !== formData.confirmPassword) {
       message.error('The passwords must match');
@@ -50,11 +50,11 @@ export default function Registry() {
         confirmPassword: formData.confirmPassword,
       });
 
-      const { token, username: user } = data;
+      const { accessToken, username: user } = data;
 
       console.log('Success registration');
 
-      dispatch(loginSuccess({ token, username: user }));
+      dispatch(loginSuccess({ token: accessToken, username: user }));
 
       message.success('Success registration! 🎉', 3);
 
