@@ -27,11 +27,11 @@ export default function Login() {
         username,
         password,
       });
-      const { success_token, username: user } = data;
+      const { accessToken, username: user } = data;
 
       message.success('Успешный вход! 🏆');
-      localStorage.setItem('token', success_token);
-      dispatch(loginSuccess({ token: success_token, username: user }));
+      localStorage.setItem('token', accessToken);
+      dispatch(loginSuccess({ token: accessToken, username: user }));
 
       setUsername('');
       setPassword('');

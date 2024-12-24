@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { addToCart } from '../redux/cartSlice';
+import { updateToken } from '../redux/authSlice';
+
+import { RootState } from '../redux/store';
 
 import ProductDetails from '../widgets/ProductDetails';
 
@@ -11,6 +16,8 @@ import { GB_CURRENCY } from '../utils/constans';
 
 import { IProduct } from '../types';
 
+import { message } from 'antd';
+
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<IProduct | null>(null);
@@ -18,12 +25,18 @@ const ProductPage = () => {
 
   const dispatch = useDispatch();
 
-  const getProduct = () => {
-    callData(`data/products.json`).then((productResults) => {
-      if (id !== undefined) {
-        setProduct(productResults[id]);
-      }
-    });
+  const navigate = useNavigate();
+
+  const isAuthenticated = useSelector((state: RootState) => state.authSlice.isAuthenticated);
+
+  const getProduct = async () => {
+    try {
+      const productResults = await callData('/data/products.json');
+      if (id) setProduct(productResults[id]);
+    } catch (error) {
+      console.error('Ошибка получения продукта:', error);
+      message.error('Не удалось загрузить продукт 😔');
+    }
   };
 
   const addCountsToProduct = () => {
@@ -36,9 +49,36 @@ const ProductPage = () => {
     return product;
   };
 
+  const handleToCart = () => {
+    if (!isAuthenticated) {
+      message.error('Please log in or register first! ❤');
+      navigate('/registry', { state: { from: location.pathname } });
+      // navigate('/registry', { replace: true });
+      return;
+    }
+    if (product && isAuthenticated === true) {
+      dispatch(addToCart(addCountsToProduct()));
+      navigate('/cart');
+    }
+  };
+
   useEffect(() => {
-    getProduct();
-  }, []);
+    if (id) getProduct();
+  }, [id]);
+
+  useEffect(() => {
+    console.log('isAuthenticated: ', isAuthenticated);
+    console.log('token from localStorage: ', localStorage.getItem('token'));
+  }, [isAuthenticated, dispatch]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        dispatch(updateToken(token));
+      }
+    }
+  });
 
   if (!product?.title) return <h1>Loading Product ...</h1>;
 
@@ -85,17 +125,10 @@ const ProductPage = () => {
                   <option>3</option>
                 </select>
               </div>
-              <Link to={'/cart'}>
-                <button
-                  onClick={() => {
-                    if (product) {
-                      dispatch(addToCart(addCountsToProduct()));
-                    }
-                  }}
-                  className="btn">
-                  Add to Cart
-                </button>
-              </Link>
+
+              <button onClick={handleToCart} className="btn">
+                Add to Cart
+              </button>
             </div>
           </div>
         </div>

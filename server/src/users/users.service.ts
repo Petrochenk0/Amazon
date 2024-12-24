@@ -1,12 +1,8 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import * as bcrypt from 'bcrypt'; // Для хэширования
+import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -23,7 +19,7 @@ export class UsersService {
     email: string,
     password: string,
     confirmPassword: string,
-  ): Promise<User> {
+  ): Promise<{ username: string; accessToken: string }> {
     if (!username || !email || !password || password !== confirmPassword) {
       throw new Error('Invalid input or passwords do not match!');
     }
@@ -41,27 +37,29 @@ export class UsersService {
       email,
       password: hashedPassword,
     });
-    return this.userRepository.save(user);
+    await this.userRepository.save(user);
+
+    const accessToken = await this.generateToken(user.username);
+    return { username: user.username, accessToken };
   }
 
   // Логин
   async login(
     username: string,
     password: string,
-  ): Promise<{ accessToken: string; username: string }> {
+  ): Promise<{ username: string; accessToken: string }> {
     const user = await this.userRepository.findOne({ where: { username } });
+
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Invalid credentials!');
     }
 
-    const payload = { username: user.username, sub: user.id };
-    const accessToken = this.jwtService.sign(payload);
-
-    return { accessToken, username: user.username };
+    const accessToken = await this.generateToken(user.username);
+    return { username: user.username, accessToken };
   }
 
-  async generateToken(username: string) {
-    const payload = { username }; // Что ты зашиваешь в токен
-    return this.jwtService.sign(payload);
+  private generateToken(username: string): Promise<string> {
+    const payload = { username };
+    return this.jwtService.signAsync(payload);
   }
 }

@@ -3,6 +3,8 @@ import { Link, useSearchParams } from 'react-router-dom';
 
 import ProductDetails from '../widgets/ProductDetails';
 
+import SortDropdownProps from '../features/SortDropdownProps';
+
 import { callData } from '../utils/CallApi';
 import { GB_CURRENCY } from '../utils/constans';
 
@@ -11,6 +13,7 @@ import { IProduct } from '../types';
 export default function SearchResult() {
   const [searchParams] = useSearchParams();
   const [products, setProducts] = React.useState<IProduct[] | null>(null);
+  const [sortType, setSortType] = React.useState<string>('popular');
 
   // function receives data from the server and further filters by categories
   const getSearchResult = () => {
@@ -39,10 +42,36 @@ export default function SearchResult() {
     getSearchResult();
   }, [searchParams]);
 
+  const sortProducts = (products: IProduct[]) => {
+    switch (sortType) {
+      case 'newest':
+        return products.sort((a, b) => b.id - a.id); // По новизне (по ID)
+      case 'cheapest':
+        return products.sort((a, b) => a.price - b.price); // От дешёвых к дорогим
+      case 'expensive':
+        return products.sort((a, b) => b.price - a.price); // От дорогих к дешёвым
+      case 'discounted':
+        return products.sort((a, b) => {
+          const discountA = a.oldPrice - a.price;
+          const discountB = b.oldPrice - b.price;
+          return discountB - discountA; // Сравниваем по скидкам
+        });
+      case 'highRated':
+        return products.sort((a, b) => b.avgRating - a.avgRating); // По рейтингу
+      default:
+        return products; // По популярности (оставляем как есть)
+    }
+  };
+
+  const sortedProducts = products ? sortProducts([...products]) : null;
+
   return (
     <div className="min-w-[1200px] max-w-[1300px] mx-auto">
-      {products &&
-        products.map((product) => {
+      <div className="m-4">
+        <SortDropdownProps SortChange={(value) => setSortType(value)} />
+      </div>
+      {sortedProducts &&
+        sortedProducts.map((product) => {
           return (
             <Link key={product.title} to={`/product/${product.id}`}>
               <div className="text-black h-[250px] grid grid-cols-12 rounded-xl mt-3 mb-3">
