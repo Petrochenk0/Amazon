@@ -23,7 +23,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post('http://localhost:3000/api/users/login', {
+      const { data } = await axios.post('http://localhost:8000/api/users/login', {
         username,
         password,
       });
@@ -38,7 +38,7 @@ export default function Login() {
 
       setTimeout(() => {
         navigate('/');
-      }, 3000);
+      }, 1000);
     } catch (error) {
       message.error('Login failed! Please check your credentials.');
       console.error('Error with login', error);

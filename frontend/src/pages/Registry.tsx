@@ -43,7 +43,7 @@ export default function Registry() {
     }
 
     try {
-      const { data } = await axios.post('http://localhost:3000/api/users/register', {
+      const { data } = await axios.post('http://localhost:8000/api/users/register', {
         username: formData.username,
         email: formData.email,
         password: formData.password,
