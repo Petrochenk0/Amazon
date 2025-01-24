@@ -3,20 +3,25 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres', // Тип базы данных
-      host: 'localhost', // Адрес сервера базы
-      port: 5432, // Порт PostgreSQL
-      username: 'postgres', // Твой пользователь БД
-      password: '54321', // Пароль от базы
-      database: 'auth_db', // Имя базы
-      autoLoadEntities: true, // Автоматически загружать сущности
-      synchronize: true, // Синхронизировать схему с БД
-    }),
     ConfigModule.forRoot({ isGlobal: true }), // Автозагрузка .env
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get<string>('DB_HOST'),
+        port: configService.get<number>('DB_PORT'),
+        username: configService.get<string>('DB_USERNAME'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_DATABASE'),
+        autoLoadEntities: true,
+        synchronize: true,
+      }),
+      inject: [ConfigService],
+    }),
     UsersModule,
   ],
   controllers: [AppController],

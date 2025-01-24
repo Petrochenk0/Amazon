@@ -1,5 +1,13 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -26,5 +34,30 @@ export class UsersController {
     @Body('password') password: string,
   ) {
     return this.usersService.login(username, password);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('order')
+  async addOrder(
+    @Request() req,
+    @Body('items') items: { name: string; price: number; quantity: number }[],
+    @Body('total') total: number,
+  ) {
+    const username = req.user.username;
+    return this.usersService.addOrder(username, items, total);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('order-history')
+  async getOrderHistory(@Request() req) {
+    const username = req.user.username;
+    return this.usersService.getOrderHistory(username);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  async getUserProfile(@Request() req) {
+    const username = req.user.username;
+    return this.usersService.getUserProfile(username);
   }
 }

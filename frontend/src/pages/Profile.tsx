@@ -1,104 +1,90 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { message } from 'antd';
 
-// Типы данных
-interface Address {
-  id: number;
-  address: string;
-}
-
-interface Order {
-  id: number;
-  items: string[];
-  status: string;
-  total: number;
-}
-
-interface Analytics {
-  totalSpent: number;
-  mostPurchased: string[];
+interface UserProfile {
+  username: string;
+  email: string;
 }
 
 const ProfilePage: React.FC = () => {
-  // Пример данных (заменишь API позже)
-  const userInfo = { name: 'Иван Иванов', email: 'ivan@example.com', phone: '+7 900 123-45-67' };
-  const addresses: Address[] = [
-    { id: 1, address: 'Москва, ул. Ленина, д. 1' },
-    { id: 2, address: 'СПБ, Невский пр., д. 10' },
-  ];
-  const orders: Order[] = [
-    { id: 1, items: ['Телефон', 'Наушники'], status: 'Доставлен', total: 20000 },
-    { id: 2, items: ['Ноутбук'], status: 'В пути', total: 70000 },
-  ];
-  const analytics: Analytics = { totalSpent: 90000, mostPurchased: ['Ноутбук', 'Телефон'] };
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const { data } = await axios.get('http://localhost:8000/api/users/profile', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUserProfile(data);
+      } catch (error) {
+        message.error('Failed to load user profile');
+        console.error('Error fetching user profile', error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  if (!userProfile) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
-      <div className="grid gap-8 lg:grid-cols-3">
-        {/* Управление аккаунтом */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-bold mb-4">Управление аккаунтом</h2>
-          <p>Имя: {userInfo.name}</p>
-          <p>Email: {userInfo.email}</p>
-          <p>Телефон: {userInfo.phone}</p>
-          <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            Редактировать
-          </button>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
+      <div className="bg-white p-12 rounded-lg shadow-2xl max-w-2xl w-full mb-8 transform transition duration-500 hover:scale-105">
+        <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-6">
+          Профиль пользователя{' '}
+          <span role="img" aria-label="smile">
+            👀
+          </span>
+        </h2>
+        <div className="flex flex-col items-center">
+          <div className="bg-yellow-200 p-6 rounded-full mb-6 shadow-lg">
+            <svg
+              className="w-24 h-24 text-yellow-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 11c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v1h16v-1c0-2.66-5.33-4-8-4z"
+              />
+            </svg>
+          </div>
+          <div className="w-full px-4">
+            <label className="block text-lg font-medium text-gray-700 mb-2">Username</label>
+            <input
+              type="text"
+              value={userProfile.username}
+              readOnly
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+            />
+          </div>
+          <div className="w-full px-4 mt-4">
+            <label className="block text-lg font-medium text-gray-700 mb-2">Email</label>
+            <input
+              type="text"
+              value={userProfile.email}
+              readOnly
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+            />
+          </div>
         </div>
-
-        {/* Адреса доставки */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-bold mb-4">Адреса доставки</h2>
-          {addresses.map((addr) => (
-            <div key={addr.id} className="flex justify-between items-center mb-2">
-              <span>{addr.address}</span>
-              <button className="text-red-500 hover:underline">Удалить</button>
-            </div>
-          ))}
-          <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-            Добавить адрес
-          </button>
-        </div>
-
-        {/* История заказов */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-bold mb-4">История заказов</h2>
-          {orders.map((order) => (
-            <div key={order.id} className="border-b pb-4 mb-4">
-              <h3 className="font-semibold">Заказ #{order.id}</h3>
-              <p>Товары: {order.items.join(', ')}</p>
-              <p>Статус: {order.status}</p>
-              <p>Сумма: {order.total} ₽</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Аналитика */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-bold mb-4">Личная аналитика</h2>
-          <p>Всего потрачено: {analytics.totalSpent} ₽</p>
-          <p>Часто покупаемые товары: {analytics.mostPurchased.join(', ')}</p>
-        </div>
-
-        {/* Уведомления */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-bold mb-4">Настройки уведомлений</h2>
-          <label className="block mb-2">
-            <input type="checkbox" className="mr-2" /> Получать обновления по email
-          </label>
-          <label className="block">
-            <input type="checkbox" className="mr-2" /> Получать обновления по SMS
-          </label>
-        </div>
-
-        {/* Рекомендации */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-bold mb-4">Рекомендации</h2>
-          <p>На основе ваших покупок мы рекомендуем:</p>
-          <ul className="list-disc list-inside">
-            <li>Пылесос</li>
-            <li>Электрическая зубная щетка</li>
-            <li>Геймпад</li>
-          </ul>
+      </div>
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full">
+        <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+          История заказов{' '}
+          <span role="img" aria-label="package">
+            📦
+          </span>
+        </h3>
+        <div className="bg-gray-100 p-6 rounded-lg shadow-inner">
+          <p className="text-gray-600">Здесь будет отображаться история ваших заказов.</p>
         </div>
       </div>
     </div>
