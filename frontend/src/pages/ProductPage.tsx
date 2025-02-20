@@ -53,7 +53,6 @@ const ProductPage = () => {
     if (!isAuthenticated) {
       message.error('Please log in or register first! ❤');
       navigate('/registry', { state: { from: location.pathname } });
-      // navigate('/registry', { replace: true });
       return;
     }
     if (product && isAuthenticated === true) {
