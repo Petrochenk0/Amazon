@@ -7,8 +7,16 @@ interface UserProfile {
   email: string;
 }
 
+interface Order {
+  id: string;
+  total: number;
+  createdAt: string;
+  items: { name: string; price: number; quantity: number }[];
+}
+
 const ProfilePage: React.FC = () => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [orderHistory, setOrderHistory] = useState<Order[]>([]);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -25,6 +33,23 @@ const ProfilePage: React.FC = () => {
     };
 
     fetchUserProfile();
+  }, []);
+
+  useEffect(() => {
+    const fetchOrderHistory = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const { data } = await axios.get('http://localhost:8000/api/users/order-history', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setOrderHistory(data);
+      } catch (error) {
+        message.error('Failed to load order history');
+        console.error('Error fetching order history', error);
+      }
+    };
+
+    fetchOrderHistory();
   }, []);
 
   if (!userProfile) {
@@ -84,7 +109,26 @@ const ProfilePage: React.FC = () => {
           </span>
         </h3>
         <div className="bg-gray-100 p-6 rounded-lg shadow-inner">
-          <p className="text-gray-600">Здесь будет отображаться история ваших заказов.</p>
+          {orderHistory.length > 0 ? (
+            orderHistory.map((order) => (
+              <div key={order.id} className="mb-4">
+                <p className="text-gray-700">Order ID: {order.id}</p>
+                <p className="text-gray-700">Total: {order.total}</p>
+                <p className="text-gray-700">
+                  Date: {new Date(order.createdAt).toLocaleDateString()}
+                </p>
+                <ul>
+                  {order.items.map((item, index) => (
+                    <li key={index} className="text-gray-600">
+                      {item.name} - {item.quantity} x {item.price}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-600">No orders found.</p>
+          )}
         </div>
       </div>
     </div>

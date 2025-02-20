@@ -1,4 +1,7 @@
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { message } from 'antd';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart, decrementInCart, incrementInCart } from '../redux/cartSlice';
@@ -19,6 +22,32 @@ const Cart = () => {
     ),
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleCheckout = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        'http://localhost:8000/api/users/order',
+        {
+          items: products,
+          total: subtotal,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      message.success('Order placed successfully! 🎉');
+      navigate('/profile');
+    } catch (error: any) {
+      if (error.response && error.response.status === 404) {
+        message.error('Order endpoint not found. Please check the server URL.');
+      } else {
+        message.error('Failed to place order');
+      }
+      console.error('Error placing order', error);
+    }
+  };
 
   return (
     <div className="h-screen bg-amazonColors-background">
@@ -95,7 +124,9 @@ const Cart = () => {
               Subtotal ({itemsNumber} items):{' '}
               <span className="font-semibold">{GB_CURRENCY.format(subtotal)}</span>
             </div>
-            <button className="btn">Proceed to Checkout</button>
+            <button className="btn" onClick={handleCheckout}>
+              Proceed to Checkout
+            </button>
           </div>
         </div>
       </div>
